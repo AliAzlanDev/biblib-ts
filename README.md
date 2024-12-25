@@ -65,7 +65,7 @@ const csvRefs = await parseCSV(csvContent, {
 All parsers return references in a standardized format:
 
 ```typescript
-interface ReflibRef {
+interface BibLibRef {
   type?: string;
   title?: string;
   authors?: string[];
