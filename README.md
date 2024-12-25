@@ -26,35 +26,41 @@ npm install biblib
 ## Usage
 
 ```typescript
-import { parseRIS, parseMedline, parseEndnoteXML, parseBibTeX, parseCSV } from 'biblib';
+import {
+  parseRIS,
+  parseMedline,
+  parseEndnoteXML,
+  parseBibTeX,
+  parseCSV,
+} from 'biblib';
 
 // Parse RIS file
 const risRefs = await parseRIS(risContent, {
   defaultType: 'journalArticle',
-  delimeter: '\r'
+  delimeter: '\r',
 });
 
 // Parse Medline file
 const medlineRefs = await parseMedline(medlineContent, {
   reformatAuthors: true,
   journal: 'long',
-  parseAddress: true
+  parseAddress: true,
 });
 
 // Parse EndNote XML file
 const endnoteRefs = await parseEndnoteXML(xmlContent, {
-  defaultType: 'journalArticle'
+  defaultType: 'journalArticle',
 });
 
 // Parse BibTeX file
 const bibtexRefs = await parseBibTeX(bibtexContent, {
   removeComments: true,
-  defaultType: 'journalArticle'
+  defaultType: 'journalArticle',
 });
 
 // Parse CSV file
 const csvRefs = await parseCSV(csvContent, {
-  defaultType: 'journalArticle'
+  defaultType: 'journalArticle',
 });
 ```
 
@@ -141,6 +147,7 @@ parseCSV(content: string, options?: {
 ### Author Name Handling
 
 The library automatically normalizes author names into a consistent format (A. Azlan):
+
 - Handles various input formats (Firstname Lastname, Lastname, Firstname, etc.)
 - Properly handles middle names and initials
 - Preserves suffixes (Jr., Sr., III, etc.)
