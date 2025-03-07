@@ -15,17 +15,20 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
 
-    /* If transpiling with TypeScript: */
+    /* Module Settings */
     "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "dist",
     "sourceMap": true,
 
-    /* AND if you're building for a library: */
+    /* Declaration Settings */
     "declaration": true,
+    "declarationMap": true,
 
-    /* AND if you're building for a library in a monorepo: */
-    "declarationMap": true
+    /* Important for ESM compatibility */
+    "forceConsistentCasingInFileNames": true,
+    "preserveSymlinks": true
   },
-  "include": ["src/**/*", "test/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test/**/*"]
 }

@@ -1,4 +1,4 @@
-import * as csv from '@fast-csv/parse';
+import { parse } from 'csv-parse';
 import type { BibLibRef } from './types/index.js';
 import { translations } from './translations/csv.js';
 import { mutators } from './utils/mutators.js';
@@ -21,20 +21,29 @@ export async function parseCSV(
   return new Promise((resolve, reject) => {
     const refs: BibLibRef[] = [];
 
-    csv
-      .parseString(fileContent, {
-        headers: (header) => {
-          return header.map((h) => h?.toLowerCase());
+    parse(
+      fileContent,
+      {
+        columns: (header) => {
+          return header.map((h: string) => h?.toLowerCase());
         },
-      })
-      .on('data', (row) => {
-        const ref = parseRow(row, settings);
-        if (Object.keys(ref).length > 0) {
-          refs.push(ref);
+        skip_empty_lines: true,
+      },
+      (err, records) => {
+        if (err) {
+          return reject(err);
         }
-      })
-      .on('end', () => resolve(refs))
-      .on('error', reject);
+
+        for (const row of records) {
+          const ref = parseRow(row, settings);
+          if (Object.keys(ref).length > 0) {
+            refs.push(ref);
+          }
+        }
+
+        resolve(refs);
+      },
+    );
   });
 }
 
