@@ -17,7 +17,7 @@ export async function parseRIS(
   fileContent: string,
   options?: RISOptions,
 ): Promise<BibLibRef[]> {
-  initializeTranslationMaps(); // Add this line at the start
+  initializeTranslationMaps();
   const settings: Required<RISOptions> = {
     defaultType: 'journalArticle',
     delimeter: '\r',
@@ -56,8 +56,7 @@ function parseRef(
         line,
       )?.groups;
 
-      if (!parsedLine || !parsedLine.value) {
-        // Added check for parsedLine.value
+      if (!parsedLine) {
         if (line.replace(/\s+/, '') && lastField) {
           // Line isn't just whitespace + We have a field to append to - append with \r delimiters
           if (lastField.inputArray) {
@@ -79,32 +78,42 @@ function parseRef(
         return; // Stop processing this line
       }
 
-      if (parsedLine.key == 'ER') return; // Skip 'ER' defiition lines - this is probably due to the buffer draining
+      if (parsedLine.key === 'ER') return;
       let fieldLookup = parsedLine.key
         ? translations.fields.rawMap.get(parsedLine.key)
         : undefined;
       if (!fieldLookup) {
-        // Skip unknown field translations
+        // Unknown field, skip it
         lastField = null;
         return;
-      } else if (fieldLookup.bl == 'type') {
+      }
+
+      // Make sure the value is not empty before proceeding
+      const trimmedValue = parsedLine.value?.trim();
+      if (!trimmedValue) {
+        // Empty value, don't set this field or use it as lastField
+        lastField = null;
+        return;
+      }
+
+      // Handle field based on its type
+      if (fieldLookup.bl === 'type') {
         // Special handling for ref types
-        ref[fieldLookup.bl] =
-          (parsedLine.value
-            ? translations.types.rawMap.get(parsedLine.value)?.bl
-            : undefined) || settings.defaultType;
-        lastField = fieldLookup; // Track last key so we can append to it on the next cycle
+        const typeValue = translations.types.rawMap.get(trimmedValue)?.bl;
+        ref[fieldLookup.bl] = typeValue || settings.defaultType;
+        lastField = fieldLookup;
       } else if (fieldLookup.inputArray) {
+        // Handle array field
         const currentValue = ref[fieldLookup.bl];
         if (Array.isArray(currentValue)) {
-          currentValue.push(parsedLine.value);
+          currentValue.push(trimmedValue);
         } else {
-          ref[fieldLookup.bl] = [parsedLine.value];
+          ref[fieldLookup.bl] = [trimmedValue];
         }
         lastField = fieldLookup;
       } else {
         // Simple key=val
-        ref[fieldLookup.bl] = parsedLine.value;
+        ref[fieldLookup.bl] = trimmedValue;
         lastField = fieldLookup;
       }
     });

@@ -1,6 +1,6 @@
 {
   "name": "biblib",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "scripts": {
     "build": "rimraf dist && tsc",
     "ci": "npm run build && npm run check-format && npm run check-exports && npm run test",
