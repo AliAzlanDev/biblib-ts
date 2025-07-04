@@ -2,7 +2,7 @@
 
 A TypeScript library for parsing various academic reference file formats in browser.
 
-This library is inspired by the [`reflib`](https://github.com/IEBH/Reflib), but is designed to be lightweight and efficient for use in web applications.
+This library is inspired by the [`@iebh/reflib`](https://github.com/IEBH/Reflib), but is designed to be lightweight and efficient for use in web applications.
 
 ## Features
 
@@ -101,7 +101,7 @@ interface BibLibRef {
 parseRIS(content: string, options?: {
   defaultType?: string;    // Default: 'journalArticle'
   delimeter?: string;      // Default: '\r'
-}): Promise<ReflibRef[]>
+}): Promise<BiblibRef[]>
 ```
 
 ### Medline Parser
@@ -115,7 +115,7 @@ parseMedline(content: string, options?: {
   parseAddress?: boolean;  // Default: true
   parseDoi?: boolean;      // Default: true
   parseYear?: boolean;     // Default: true
-}): Promise<ReflibRef[]>
+}): Promise<BiblibRef[]>
 ```
 
 ### EndNote XML Parser
@@ -123,7 +123,7 @@ parseMedline(content: string, options?: {
 ```typescript
 parseEndnoteXML(content: string, options?: {
   defaultType?: string;    // Default: 'journalArticle'
-}): Promise<ReflibRef[]>
+}): Promise<BiblibRef[]>
 ```
 
 ### BibTeX Parser
@@ -133,7 +133,7 @@ parseBibTeX(content: string, options?: {
   removeComments?: boolean; // Default: true
   defaultType?: string;     // Default: 'journalArticle'
   delimeter?: string;       // Default: '\n'
-}): Promise<ReflibRef[]>
+}): Promise<BiblibRef[]>
 ```
 
 ### CSV Parser
@@ -141,7 +141,7 @@ parseBibTeX(content: string, options?: {
 ```typescript
 parseCSV(content: string, options?: {
   defaultType?: string;    // Default: 'journalArticle'
-}): Promise<ReflibRef[]>
+}): Promise<BiblibRef[]>
 ```
 
 ## Features in Detail
