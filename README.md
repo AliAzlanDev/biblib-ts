@@ -1,6 +1,8 @@
 # BibLib
 
-A powerful library for parsing various academic reference file formats in Node.js.
+A TypeScript library for parsing various academic reference file formats in browser.
+
+This library is inspired by the [`reflib`](https://github.com/IEBH/Reflib), but is designed to be lightweight and efficient for use in web applications.
 
 ## Features
 
